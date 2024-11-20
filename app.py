@@ -1,8 +1,5 @@
 import json 
-import os
-import sys
 import boto3
-import random
 import time
 import streamlit as st
 
@@ -45,7 +42,7 @@ def response_generator(prompt):
         time.sleep(0.05)
 
 
-st.title("Simple chat")
+st.title("Chat with Bedrock")
 
 # Initialize chat history
 if "messages" not in st.session_state:
