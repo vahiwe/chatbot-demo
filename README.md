@@ -25,7 +25,7 @@ This project is built using [streamlit](https://streamlit.io/) and [Amazon Bedro
 
    You can get your AWS credentials from the [AWS Management Console](https://us-east-1.console.aws.amazon.com/console/home?region=us-east-1#/settings/details).
 
-   For Production, set the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in the streamlit secrets manager.
+   For Production, set the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` in the streamlit secrets dashboard.
 
 3. Run the Streamlit app:
    ```bash
