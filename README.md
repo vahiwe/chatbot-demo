@@ -16,7 +16,16 @@ This project is built using [streamlit](https://streamlit.io/) and [Amazon Bedro
    pip install -r requirements.txt
    ```
 
-2. Set up your AWS credentials and region in the environment variables.
+2. Set up your AWS credentials and region in the environment variables. You can do this by creating a `.streamlit/secrets.toml` file with the following content:
+   ```toml
+   AWS_REGION = "us-east-1"
+   AWS_ACCESS_KEY_ID = "YOUR_ACCESS_KEY_ID"
+   AWS_SECRET_ACCESS_KEY = "YOUR_SECRET_ACCESS_KEY"
+   ```
+
+   You can get your AWS credentials from the [AWS Management Console](https://us-east-1.console.aws.amazon.com/console/home?region=us-east-1#/settings/details).
+
+   For Production, set the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in the streamlit secrets manager.
 
 3. Run the Streamlit app:
    ```bash
