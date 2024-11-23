@@ -18,25 +18,30 @@ bedrock_client = session.client("bedrock-runtime")
 
 # Streamed response generator
 def response_generator(prompt):
-    prompt_data = f"""Command: {prompt}
-    Response:
-    """
-    body = json.dumps(
-        {"inputText": prompt_data, 
-        "textGenerationConfig" : {"topP":0.95, "temperature":0.2}}
-    )
-    modelId = "amazon.titan-tg1-large" 
+    native_request = {
+        "anthropic_version": "bedrock-2023-05-31",
+        "max_tokens": 512,
+        "temperature": 0.5,
+        "messages": [
+            {
+                "role": "user",
+                "content": [{"type": "text", "text": prompt}],
+            }
+        ],
+    }
+    body = json.dumps(native_request)
+    modelId = "anthropic.claude-3-sonnet-20240229-v1:0" 
     accept = "application/json"
     contentType = "application/json"
 
-    titan_response = bedrock_client.invoke_model(
+    model_response = bedrock_client.invoke_model(
         body=body, 
         modelId=modelId, 
         accept=accept, 
         contentType=contentType
     )
-    response = json.loads(titan_response.get("body").read())
-    response_text = response.get("results")[0].get("outputText")
+    response = json.loads(model_response.get("body").read())
+    response_text = response.get("content")[0].get("text")
     for word in response_text.split():
         yield word + " "
         time.sleep(0.05)
