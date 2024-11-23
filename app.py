@@ -47,6 +47,7 @@ def response_generator(prompt):
 
 
 st.title("Chat with me about the AWS EC2 Service")
+st.caption("This chatbot is powered by Claude 3 Sonnet as the foundation model and an AWS Bedrock knowledge base of AWS EC2 documentation.")
 
 # Initialize chat history
 if "messages" not in st.session_state:
