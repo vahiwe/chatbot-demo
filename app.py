@@ -14,34 +14,33 @@ session = boto3.Session(
     region_name=AWS_REGION,
 )
 
-bedrock_client = session.client("bedrock-runtime")
+bedrock_agent_runtime_client = boto3.client('bedrock-agent-runtime')
 
 # Streamed response generator
 def response_generator(prompt):
-    native_request = {
-        "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": 512,
-        "temperature": 0.5,
-        "messages": [
-            {
-                "role": "user",
-                "content": [{"type": "text", "text": prompt}],
-            }
-        ],
-    }
-    body = json.dumps(native_request)
-    modelId = "anthropic.claude-3-sonnet-20240229-v1:0" 
-    accept = "application/json"
-    contentType = "application/json"
+    knowledge_base_id = '4ZCMRGRQDU'
+    modelId = 'anthropic.claude-3-sonnet-20240229-v1:0'
+    modelArn = f'arn:aws:bedrock:us-east-1::foundation-model/{modelId}'
+    native_request = f"""\n\nHuman:
+    Please answer [question] appropriately.
+    [question]
+    {prompt}
+    Assistant:
+    """
 
-    model_response = bedrock_client.invoke_model(
-        body=body, 
-        modelId=modelId, 
-        accept=accept, 
-        contentType=contentType
+    response = bedrock_agent_runtime_client.retrieve_and_generate(
+        input={
+            'text': prompt,
+        },
+        retrieveAndGenerateConfiguration={
+            'type': 'KNOWLEDGE_BASE',
+            'knowledgeBaseConfiguration': {
+                'knowledgeBaseId': knowledge_base_id,
+                'modelArn': modelArn,
+            }
+        }
     )
-    response = json.loads(model_response.get("body").read())
-    response_text = response.get("content")[0].get("text")
+    response_text = response['output']['text']
     for word in response_text.split():
         yield word + " "
         time.sleep(0.05)
