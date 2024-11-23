@@ -46,7 +46,7 @@ def response_generator(prompt):
         time.sleep(0.05)
 
 
-st.title("Chat with Bedrock")
+st.title("Chat with me about the AWS EC2 Service")
 
 # Initialize chat history
 if "messages" not in st.session_state:
