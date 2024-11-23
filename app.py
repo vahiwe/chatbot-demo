@@ -30,7 +30,7 @@ def response_generator(prompt):
 
     response = bedrock_agent_runtime_client.retrieve_and_generate(
         input={
-            'text': prompt,
+            'text': native_request,
         },
         retrieveAndGenerateConfiguration={
             'type': 'KNOWLEDGE_BASE',
