@@ -14,7 +14,7 @@ session = boto3.Session(
     region_name=AWS_REGION,
 )
 
-bedrock_agent_runtime_client = boto3.client('bedrock-agent-runtime')
+bedrock_agent_runtime_client = session.client('bedrock-agent-runtime')
 
 # Streamed response generator
 def response_generator(prompt):
