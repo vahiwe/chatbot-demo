@@ -45,9 +45,9 @@ resource "aws_iam_role_policy" "bedrock_kb_sample_kb_s3" {
     Statement = [
       {
         Sid      = "S3ListGetPutObjectStatement"
-        Action   = ["s3:List*", "s3:Get*", "s3:PutObject"]
+        Action   = ["s3:ListBucket", "s3:GetObject"]
         Effect   = "Allow"
-        Resource = ["${local.s3_bucket_arn}/*"]
+        Resource = [local.s3_bucket_arn, "${local.s3_bucket_arn}/*"]
         Condition = {
           StringEquals = {
             "aws:PrincipalAccount" = local.account_id
