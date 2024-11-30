@@ -63,32 +63,9 @@ resource "aws_iam_role_policy" "bedrock_kb_sample_kb_s3" {
   })
 }
 
-#custom model policy
-data "aws_iam_policy_document" "assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    effect  = "Allow"
-    principals {
-      type        = "Service"
-      identifiers = ["bedrock.amazonaws.com"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values   = [local.account_id]
-    }
-  }
-}
-
-resource "aws_iam_role" "bedrock_custom_role" {
-  name_prefix         = "BedrockCM-"
-  description         = "Role for Bedrock Custom Models customization jobs"
-  assume_role_policy  = data.aws_iam_policy_document.assume_role_policy.json
-}
-
-resource "aws_iam_role_policy" "bedrock_custom_oss_policy" {
+resource "aws_iam_role_policy" "bedrock_kb_sample_kb_oss" {
   name = "AmazonBedrockOSSPolicyForKnowledgeBase_${var.kb_name}"
-  role = aws_iam_role.bedrock_custom_role.name
+  role = aws_iam_role.bedrock_kb_sample_kb.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -101,9 +78,10 @@ resource "aws_iam_role_policy" "bedrock_custom_oss_policy" {
   })
 }
 
+
 resource "time_sleep" "iam_consistency_delay" {
   create_duration = "120s"
-  depends_on      = [aws_iam_role_policy.bedrock_kb_sample_kb_model]
+  depends_on      = [aws_iam_role_policy.bedrock_kb_sample_kb_oss]
 }
 
 resource "aws_opensearchserverless_access_policy" "sample_kb" {
@@ -139,8 +117,8 @@ resource "aws_opensearchserverless_access_policy" "sample_kb" {
         }
       ],
       Principal = [
-        aws_iam_role.bedrock_custom_role.arn,
-        data.aws_caller_identity.this.arn  
+        aws_iam_role.bedrock_kb_sample_kb.arn,
+        data.aws_caller_identity.this.arn
       ]
     }
   ])
@@ -245,7 +223,7 @@ resource "opensearch_index" "sample_kb" {
 
 resource "aws_bedrockagent_knowledge_base" "sample_kb" {
   name     = var.kb_name
-  role_arn = aws_iam_role.bedrock_custom_role.arn
+  role_arn = aws_iam_role.bedrock_kb_sample_kb.arn
   knowledge_base_configuration {
     vector_knowledge_base_configuration {
       embedding_model_arn = data.aws_bedrock_foundation_model.kb.model_arn
@@ -264,7 +242,7 @@ resource "aws_bedrockagent_knowledge_base" "sample_kb" {
       }
     }
   }
-  depends_on = [time_sleep.iam_consistency_delay, aws_iam_role_policy.bedrock_kb_sample_kb_model]
+  depends_on = [time_sleep.iam_consistency_delay, aws_iam_role_policy.bedrock_kb_sample_kb_oss]
 }
 
 resource "aws_bedrockagent_data_source" "sample_kb" {
