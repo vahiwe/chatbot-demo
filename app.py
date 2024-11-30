@@ -6,6 +6,7 @@ import streamlit as st
 AWS_REGION = st.secrets["AWS_REGION"]
 AWS_ACCESS_KEY_ID = st.secrets["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = st.secrets["AWS_SECRET_ACCESS_KEY"]
+KNOWLEDGE_BASE_ID = st.secrets["KNOWLEDGE_BASE_ID"]
 
 # Initialize AWS Bedrock client
 session = boto3.Session(
@@ -18,7 +19,7 @@ bedrock_agent_runtime_client = session.client('bedrock-agent-runtime')
 
 # Streamed response generator
 def response_generator(prompt):
-    knowledge_base_id = '4ZCMRGRQDU'
+    knowledge_base_id = KNOWLEDGE_BASE_ID
     modelId = 'anthropic.claude-3-sonnet-20240229-v1:0'
     modelArn = f'arn:aws:bedrock:us-east-1::foundation-model/{modelId}'
     native_request = f"""\n\nHuman:
