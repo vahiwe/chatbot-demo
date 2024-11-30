@@ -71,3 +71,6 @@ The project includes Terraform configuration to manage the AWS infrastructure. I
 - S3 bucket for document storage
 
 The infrastructure code is located in the `.infra` directory. See the [infrastructure documentation](.infra/README.md) for more details about the resources created. Note that you can also use existing AWS resources by simply configuring the appropriate credentials and knowledge base ID in your secrets file.
+
+## Note
+You'll have to populate the S3 bucket with the documents you want to use for the knowledge base. The documents should be in a format(pdf, txt, etc.) that is supported by the Amazon Bedrock Knowledge Base. For this project, I made use of AWS Service Documentations. I was able to get the documents in pdf format from [AWS Documentation](https://docs.aws.amazon.com/).
