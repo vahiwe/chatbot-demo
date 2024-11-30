@@ -31,7 +31,16 @@ This project is built using [streamlit](https://streamlit.io/) and [Amazon Bedro
    For Production, set the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` in the streamlit secrets dashboard if deployed to streamlit cloud else set them in the environment variables of whichever environment you are deploying to.
 
 3. (Optional) Deploy your own infrastructure:
-   If you want to set up your own AWS infrastructure instead of using existing resources, you can use the provided Terraform configuration:
+   If you want to set up your own AWS infrastructure instead of using existing resources, you can use the provided Terraform configuration.
+
+   First, create a `terraform.tfvars` file in the `.infra` directory with the following variables:
+   ```bash
+   kb_oss_collection_name = "your-kb-name"    # Required: Name for the knowledge base
+   index_name = "your-index-name"          # Required: Name for the OpenSearch index
+   s3_bucket_name = "your-s3-bucket-name" # Required: Name for your S3 bucket with the documents for the Knowledge Base
+   ```
+
+   Then run:
    ```bash
    cd .infra
    terraform init
