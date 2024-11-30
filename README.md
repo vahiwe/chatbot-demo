@@ -56,7 +56,7 @@ This project is built using [streamlit](https://streamlit.io/) and [Amazon Bedro
 
    You can get the `KNOWLEDGE_BASE_ID` from the [Amazon Bedrock Console](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/knowledge-bases).
 
-4. Sync your data sources:
+4. (Optional) Sync your data sources:
    After setting up the infrastructure and uploading documents to your S3 bucket, you need to sync the data source with your knowledge base:
 
    a. Navigate to the [Amazon Bedrock Console](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/knowledge-bases)
