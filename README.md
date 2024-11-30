@@ -54,7 +54,22 @@ This project is built using [streamlit](https://streamlit.io/) and [Amazon Bedro
    - Required IAM roles and policies
    - An S3 data source for the Knowledge Base
 
-4. Run the Streamlit app:
+   You can get the `KNOWLEDGE_BASE_ID` from the [Amazon Bedrock Console](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/knowledge-bases).
+
+4. Sync your data sources:
+   After setting up the infrastructure and uploading documents to your S3 bucket, you need to sync the data source with your knowledge base:
+
+   a. Navigate to the [Amazon Bedrock Console](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/knowledge-bases)
+   b. Select your knowledge base
+   c. Go to the "Data sources" tab
+   d. Click on your S3 data source
+   e. Click "Sync now" to process the documents
+
+   The initial sync may take several minutes depending on the size and number of documents. You can monitor the sync status in the console. The knowledge base will automatically update when new documents are added to the S3 bucket, but you can also manually trigger a sync at any time.
+
+   Note: Ensure your documents are in supported formats (PDF, TXT, DOC, DOCX) and are properly structured for optimal processing.
+
+5. Run the Streamlit app:
    ```bash
    streamlit run app.py
    ```
